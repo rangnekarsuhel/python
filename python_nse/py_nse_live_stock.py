@@ -34,9 +34,11 @@ class StockGet:
                 return(self.stock_data['data'][0][key])
         
 if __name__ == "__main__":
+    # Create object for Class
     stock_obj = StockGet()
-    #stock_name = 'ZEEL'
-    #last_price = stock_obj.get_details(stock_name, 'lastPrice')
+    # import notification module for win
+    from win10toast import ToastNotifier
+    toaster = ToastNotifier()
     # List all stock to track in stock_list file
     # add each stock in new line
     with open('stock_list.txt', 'r') as file:
@@ -44,11 +46,11 @@ if __name__ == "__main__":
             stock_name = line.replace('\n', '').split(':')
             last_price = stock_obj.get_details(stock_name[0], 'lastPrice')
             #print(f'Requested URL : {stock_obj.api_url_sym}')
-            print(f'STOCK NAME : {stock_name}')
-            print(f'STOCK Date : {stock_obj.stock_date}')
-            #print(f'Response : {stock_obj.stock_data}')
-            #print(f'PE Data: {pe}')
-            print("Last Price:",last_price)
-            print("My Price:",stock_name[1])
+            notify = f'STOCK NAME : {stock_name}\n'
+            notify += f'STOCK Date : {stock_obj.stock_date}\n'
+            notify += f'Last Price: {last_price}\n'
+            notify += f'My Price: {stock_name[1]}\n'
+            toaster.show_toast("Stock notification",notify,duration=5)
+            #print(popup)
             # Class Variable
             #print(stock_obj.stock)
